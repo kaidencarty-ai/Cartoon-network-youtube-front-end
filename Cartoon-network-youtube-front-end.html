@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cartoon Network — Custom YouTube Playlist</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+    :root{
+      --bg:#000;
+      --panel:#fff;
+      --accent:#0b84ff;
+      --muted:#ddd;
+    }
+    html,body{height:100%;margin:0;font-family:'Comic Neue','Comic Sans MS',Comic Sans,system-ui,sans-serif;background:var(--bg);color:var(--panel)}
+
+    .header{
+      background: linear-gradient(90deg,#111 0 50%, #fff 0 100%);
+      background-size:40px 40px;
+      padding:16px 24px;
+      display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:20;box-shadow:0 3px 0 rgba(0,0,0,.6);
+    }
+    .logo{display:flex;align-items:center;gap:8px;font-weight:900;color:#000;padding:6px 10px;border-radius:6px;background:linear-gradient(180deg,#fff,#eee);border:4px solid #000}
+    .logo .cn{font-size:20px}
+    .logo .tube{font-size:12px;background:var(--accent);color:#fff;padding:2px 6px;border-radius:4px;font-weight:700}
+
+    .search{flex:1;display:flex}
+    .search input{flex:1;padding:10px 12px;border-radius:8px;border:4px solid #000;font-weight:700}
+    .search button{margin-left:8px;padding:10px 14px;border-radius:8px;border:4px solid #000;background:var(--accent);color:#fff;font-weight:900;cursor:pointer}
+
+    .container{max-width:1200px;margin:22px auto;padding:0 16px}
+    .featured{display:flex;gap:18px;align-items:flex-start}
+    .player-skin{background:#111;border:6px solid #000;border-radius:8px;padding:10px;flex:2}
+    .player-skin iframe{width:100%;height:360px;border-radius:4px;border:none}
+    .meta{flex:1;background:#fff;color:#000;padding:12px;border-radius:8px;border:6px solid #000}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:20px}
+    .thumb{background:linear-gradient(180deg,#222,#000);height:140px;border-radius:8px;border:6px solid #000;position:relative;overflow:hidden;cursor:pointer}
+    .thumb .label{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.95);color:#000;padding:6px 8px;border-radius:6px;font-weight:800}
+    .thumb .duration{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.75);color:#fff;padding:4px 6px;border-radius:4px;font-weight:700}
+
+    .category-row{margin-top:28px}
+    .category-row h3{margin:0 0 8px 0;color:var(--muted);font-size:18px}
+
+    .watch{display:none;max-width:1100px;margin:22px auto;padding:0 16px}
+    .watch .video-wrap{border:6px solid #000;border-radius:8px;background:#111;padding:10px}
+    .watch .video-wrap iframe{width:100%;height:520px;border-radius:4px;border:none}
+    .watch .watch-meta{margin-top:12px;background:#fff;color:#000;padding:12px;border-radius:8px;border:6px solid #000}
+
+    footer{padding:18px;text-align:center;color:var(--muted);font-weight:700}
+
+    @media (max-width:720px){
+      .player-skin iframe{height:200px}
+      .watch .video-wrap iframe{height:280px}
+      .meta{display:none}
+      .header{padding:10px}
+      .search input{padding:8px}
+    }
+
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{padding:8px 10px;border-radius:6px;border:4px solid #000;background:var(--panel);color:#000;font-weight:900;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo" aria-hidden>
+      <div class="cn">CARTOON NETWORK</div>
+      <div class="tube">TUBE</div>
+    </div>
+    <div class="search" role="search">
+      <input id="q" placeholder="Search shows cartoons and classics..." />
+      <button id="searchBtn">SEARCH</button>
+    </div>
+    <div class="controls">
+      <button id="legacyToggle" class="btn">LEGACY MODE</button>
+      <button id="homeBtn" class="btn">HOME</button>
+    </div>
+  </div>
+
+  <main>
+    <section class="container" id="home">
+      <div class="featured">
+        <div class="player-skin">
+          <iframe id="featuredVideo" src="https://www.youtube.com/embed/2g811Eo7K8U" allowfullscreen></iframe>
+        </div>
+        <aside class="meta">
+          <h2 style="margin-top:6px" id="featuredTitle">Featured Video</h2>
+          <p style="font-weight:700" id="featuredStats">Official CN Clip</p>
+          <p style="margin-top:8px" id="featuredDesc">This is a demo front end using a manual playlist of real YouTube videos.</p>
+        </aside>
+      </div>
+
+      <div class="category-row">
+        <h3>Manual Playlist</h3>
+        <div class="grid" id="playlistGrid"></div>
+      </div>
+    </section>
+
+    <section class="watch" id="watch">
+      <div class="video-wrap">
+        <iframe id="watchPlayer" src="" allowfullscreen></iframe>
+      </div>
+      <div class="watch-meta">
+        <h2 id="watchTitle">Title placeholder</h2>
+        <p id="watchStats">Views placeholder</p>
+        <p id="watchDesc" style="margin-top:8px">Description placeholder — this is a demo player with placeholder content and CN styling.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>Cartoon Network — Manual Playlist Mockup • Not affiliated with Cartoon Network</footer>
+
+  <script>
+    // Manual playlist of real YouTube videos
+    const playlist = [
+      {id:1,title:'Dexter\'s Lab Intro',url:'https://www.youtube.com/embed/2g811Eo7K8U',views:'1.2M views',desc:'Official Dexter\'s Laboratory intro'},
+      {id:2,title:'Powerpuff Girls Intro',url:'https://www.youtube.com/embed/OwPcoBqfjRE',views:'950K views',desc:'Classic Powerpuff Girls opening'},
+      {id:3,title:'Ed, Edd n Eddy Theme',url:'https://www.youtube.com/embed/h_yhPcjbxvA',views:'780K views',desc:'Fun Ed, Edd n Eddy theme'},
+      {id:4,title:'Courage the Cowardly Dog Intro',url:'https://www.youtube.com/embed/ZhR73Q0_UrM',views:'500K views',desc:'Courage intro clip'},
+      {id:5,title:'Cartoon Network Bumper',url:'https://www.youtube.com/embed/PC5Fq9RlgzA',views:'300K views',desc:'Classic CN bumper'}
+    ];
+
+    const playlistGrid = document.getElementById('playlistGrid');
+
+    function makeThumb(item){
+      const el = document.createElement('div');
+      el.className = 'thumb';
+      el.setAttribute('data-id', item.id);
+      el.innerHTML = `
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg, rgba(255,255,255,0.04) 0 10px, transparent 10px 20px), linear-gradient(180deg,#111,#222);filter:contrast(1.05);"></div>
+        <div class="label">${item.title}</div>
+        <div class="duration">${item.views}</div>
+      `;
+      el.addEventListener('click', ()=> openWatch(item));
+      return el;
+    }
+
+    playlist.forEach(item => playlistGrid.appendChild(makeThumb(item)));
+
+    const home = document.getElementById('home');
+    const watch = document.getElementById('watch');
+    const watchPlayer = document.getElementById('watchPlayer');
+
+    function openWatch(item){
+      document.getElementById('watchTitle').innerText = item.title;
+      document.getElementById('watchStats').innerText = item.views;
+      document.getElementById('watchDesc').innerText = item.desc;
+
+      watchPlayer.src = item.url;
+
+      home.style.display = 'none';
+      watch.style.display = 'block';
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+
+    document.getElementById('homeBtn').addEventListener('click', ()=>{
+      watch.style.display = 'none';
+      home.style.display = 'block';
+      window.scrollTo({top:0,behavior:'smooth'});
+      watchPlayer.src='';
+    });
+
+    const legacyToggle = document.getElementById('legacyToggle');
+    let legacy=false;
+    legacyToggle.addEventListener('click', ()=>{
+      legacy = !legacy;
+      if(legacy){
+        document.body.style.setProperty('--accent','#00e6a8');
+        document.body.style.background = '#000';
+        document.querySelector('.header').style.backgroundSize = '20px 20px';
+        legacyToggle.innerText = 'LEGACY ON';
+      } else {
+        document.body.style.setProperty('--accent','#0b84ff');
+        document.querySelector('.header').style.backgroundSize = '40px 40px';
+        legacyToggle.innerText = 'LEGACY MODE';
+      }
+    });
+
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='Escape') document.getElementById('homeBtn').click();
+    });
+
+    home.style.display = 'block';
+    watch.style.display = 'none';
+  </script>
+</body>
+</html>
