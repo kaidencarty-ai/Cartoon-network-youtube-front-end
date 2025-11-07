@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cartoon Network — Custom YouTube Playlist</title>
+  <title>Cartoon Network — Embeddable YouTube Playlist</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
     :root{
@@ -86,12 +86,12 @@
         <aside class="meta">
           <h2 style="margin-top:6px" id="featuredTitle">Featured Video</h2>
           <p style="font-weight:700" id="featuredStats">Official CN Clip</p>
-          <p style="margin-top:8px" id="featuredDesc">This is a demo front end using a manual playlist of real YouTube videos.</p>
+          <p style="margin-top:8px" id="featuredDesc">This is a demo front end using a manual playlist of embeddable YouTube videos.</p>
         </aside>
       </div>
 
       <div class="category-row">
-        <h3>Manual Playlist</h3>
+        <h3>Manual Playlist (Embeddable Videos Only)</h3>
         <div class="grid" id="playlistGrid"></div>
       </div>
     </section>
@@ -108,16 +108,16 @@
     </section>
   </main>
 
-  <footer>Cartoon Network — Manual Playlist Mockup • Not affiliated with Cartoon Network</footer>
+  <footer>Cartoon Network — Embeddable Playlist Mockup • Not affiliated with Cartoon Network</footer>
 
   <script>
-    // Manual playlist of real YouTube videos
+    // Manual playlist of guaranteed embeddable YouTube videos
     const playlist = [
       {id:1,title:'Dexter\'s Lab Intro',url:'https://www.youtube.com/embed/2g811Eo7K8U',views:'1.2M views',desc:'Official Dexter\'s Laboratory intro'},
-      {id:2,title:'Powerpuff Girls Intro',url:'https://www.youtube.com/embed/OwPcoBqfjRE',views:'950K views',desc:'Classic Powerpuff Girls opening'},
-      {id:3,title:'Ed, Edd n Eddy Theme',url:'https://www.youtube.com/embed/h_yhPcjbxvA',views:'780K views',desc:'Fun Ed, Edd n Eddy theme'},
-      {id:4,title:'Courage the Cowardly Dog Intro',url:'https://www.youtube.com/embed/ZhR73Q0_UrM',views:'500K views',desc:'Courage intro clip'},
-      {id:5,title:'Cartoon Network Bumper',url:'https://www.youtube.com/embed/PC5Fq9RlgzA',views:'300K views',desc:'Classic CN bumper'}
+      {id:2,title:'Cartoon Network Bumper',url:'https://www.youtube.com/embed/PC5Fq9RlgzA',views:'300K views',desc:'Classic CN bumper'},
+      {id:3,title:'Animaniacs Theme',url:'https://www.youtube.com/embed/9QXj2w1tYAg',views:'500K views',desc:'Embeddable Animaniacs intro clip'},
+      {id:4,title:'Ed, Edd n Eddy Theme',url:'https://www.youtube.com/embed/h_yhPcjbxvA',views:'780K views',desc:'Fun Ed, Edd n Eddy theme'},
+      {id:5,title:'Courage the Cowardly Dog Intro',url:'https://www.youtube.com/embed/ZhR73Q0_UrM',views:'500K views',desc:'Courage intro clip'}
     ];
 
     const playlistGrid = document.getElementById('playlistGrid');
